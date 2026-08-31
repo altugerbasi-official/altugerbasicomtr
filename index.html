@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10211f">
+  <meta name="description" content="Altuğ Erbaş'ın kişisel web sitesi yakında burada.">
+  <title>Altuğ Erbaş | Yakında</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #10211f;
+      --paper: #f3f0e8;
+      --lime: #d7f36b;
+      --coral: #ff8066;
+      --mist: #d8e2dc;
+      --line: rgba(16, 33, 31, .19);
+      --mono: "DM Mono", monospace;
+      --display: "Space Grotesk", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: var(--display);
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      opacity: .34;
+      pointer-events: none;
+      background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, black, transparent 70%);
+    }
+    a { color: inherit; }
+    .shell { position: relative; width: min(1240px, calc(100% - 48px)); margin: 0 auto; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 27px 0;
+      border-bottom: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .mark { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 500; }
+    .mark-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--coral); box-shadow: 4px 4px 0 var(--ink); }
+    .header-status { display: flex; align-items: center; gap: 12px; color: #49605b; }
+    .status-pulse { width: 7px; height: 7px; border-radius: 50%; background: #62b77e; box-shadow: 0 0 0 5px rgba(98,183,126,.17); }
+
+    main { min-height: calc(100vh - 83px); padding: clamp(62px, 10vw, 132px) 0 72px; }
+    .hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr); gap: clamp(48px, 8vw, 120px); align-items: end; }
+    .eyebrow { margin: 0 0 24px; color: #536c65; font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+    h1 { max-width: 780px; margin: 0; font-size: clamp(62px, 10vw, 144px); line-height: .88; letter-spacing: -.075em; font-weight: 600; }
+    h1 span { display: block; color: var(--coral); }
+    .intro { max-width: 400px; margin: 0 0 7px; font-size: clamp(18px, 2vw, 23px); line-height: 1.28; letter-spacing: -.02em; }
+    .intro strong { font-weight: 600; text-decoration: underline; text-decoration-color: var(--lime); text-decoration-thickness: 8px; text-underline-offset: -2px; }
+
+    .signal { position: relative; min-height: 287px; margin-top: 82px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 20px; }
+    .signal-card { position: relative; overflow: hidden; padding: 24px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); }
+    .signal-card::after { content: ""; position: absolute; width: 170px; height: 170px; right: -42px; bottom: -68px; border: 1px solid var(--coral); border-radius: 50%; box-shadow: 0 0 0 24px rgba(255,128,102,.14), 0 0 0 49px rgba(255,128,102,.08); }
+    .card-label { position: relative; z-index: 1; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+    .wave { position: absolute; inset: 83px 24px 34px; display: flex; align-items: center; gap: 5px; }
+    .wave i { display: block; width: 4px; background: var(--lime); animation: pulse 1.5s ease-in-out infinite alternate; }
+    .wave i:nth-child(3n) { background: var(--coral); animation-delay: -.7s; }
+    .wave i:nth-child(4n) { animation-delay: -.2s; }
+    @keyframes pulse { from { height: 16%; } to { height: var(--h); } }
+    .note-card { display: flex; flex-direction: column; justify-content: space-between; padding: 24px; background: var(--lime); border: 1px solid var(--ink); }
+    .note-card p { max-width: 210px; margin: 0; font-size: 27px; line-height: 1.03; letter-spacing: -.05em; font-weight: 600; }
+    .note { align-self: end; font-size: 72px; line-height: .7; font-family: Georgia, serif; }
+
+    .footer-row { display: flex; justify-content: space-between; align-items: end; gap: 30px; padding-top: 27px; margin-top: 22px; border-top: 1px solid var(--line); }
+    .roles { display: flex; flex-wrap: wrap; gap: 9px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .05em; }
+    .roles span { padding: 9px 11px; border: 1px solid var(--line); }
+    .contact { display: inline-flex; gap: 10px; align-items: center; font-family: var(--mono); font-size: 12px; text-transform: uppercase; text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 5px; }
+    .contact::after { content: "↗"; color: var(--coral); font-size: 18px; line-height: 10px; }
+    .contact:hover { color: var(--coral); border-color: var(--coral); }
+    .reveal { animation: reveal .75s cubic-bezier(.2,.8,.2,1) both; }
+    .reveal.delay { animation-delay: .14s; }
+    @keyframes reveal { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 720px) {
+      .shell { width: min(100% - 32px, 540px); }
+      header { padding: 20px 0; }
+      .header-status { font-size: 10px; }
+      main { padding-top: 70px; }
+      .hero { display: block; }
+      h1 { font-size: clamp(60px, 18vw, 102px); }
+      .intro { margin-top: 36px; }
+      .signal { margin-top: 62px; min-height: 390px; grid-template-columns: 1fr; grid-template-rows: 1fr 155px; }
+      .note-card { flex-direction: row; align-items: start; }
+      .note { align-self: end; }
+      .footer-row { align-items: start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="reveal">
+      <a class="mark" href="mailto:merhaba@altugerbas.com.tr"><span class="mark-dot" aria-hidden="true"></span> Altuğ Erbaş</a>
+      <div class="header-status"><span class="status-pulse" aria-hidden="true"></span> yayın için hazırlanıyor</div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="reveal">
+          <p class="eyebrow">Kişisel alan // 2026</p>
+          <h1 id="page-title">Bir şeyler<br><span>kuruyorum.</span></h1>
+        </div>
+        <p class="intro reveal delay">Teknolojiyle düşünen, insanla çalışan, <strong>müzikle nefes alan</strong> bir alan yakında burada.</p>
+      </section>
+
+      <section class="signal reveal delay" aria-label="Yakında açılacak site hakkında">
+        <div class="signal-card">
+          <div class="card-label"><span>Signal / 001</span><span>Live soon</span></div>
+          <div class="wave" aria-hidden="true">
+            <i style="--h: 32%"></i><i style="--h: 58%"></i><i style="--h: 42%"></i><i style="--h: 78%"></i><i style="--h: 29%"></i><i style="--h: 93%"></i><i style="--h: 46%"></i><i style="--h: 67%"></i><i style="--h: 36%"></i><i style="--h: 83%"></i><i style="--h: 52%"></i><i style="--h: 72%"></i><i style="--h: 38%"></i><i style="--h: 88%"></i><i style="--h: 46%"></i><i style="--h: 61%"></i><i style="--h: 31%"></i><i style="--h: 76%"></i><i style="--h: 49%"></i><i style="--h: 94%"></i><i style="--h: 38%"></i><i style="--h: 68%"></i><i style="--h: 44%"></i><i style="--h: 81%"></i><i style="--h: 30%"></i><i style="--h: 57%"></i><i style="--h: 70%"></i><i style="--h: 41%"></i><i style="--h: 86%"></i><i style="--h: 33%"></i><i style="--h: 65%"></i>
+          </div>
+        </div>
+        <div class="note-card">
+          <p>Danışmanlık.<br>Koçluk.<br>Müzik.</p>
+          <span class="note" aria-hidden="true">♪</span>
+        </div>
+      </section>
+
+      <footer class="footer-row reveal delay">
+        <div class="roles"><span>IT Consultant</span><span>İçindeKoç</span><span>Musician</span></div>
+        <a class="contact" href="mailto:merhaba@altugerbas.com.tr">Şimdilik merhaba de</a>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
