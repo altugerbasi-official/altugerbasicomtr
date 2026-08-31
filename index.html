@@ -53,12 +53,12 @@
       letter-spacing: .08em;
       text-transform: uppercase;
     }
-    .mark { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 500; }
+    .mark { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 500; text-transform: none; }
     .mark-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--coral); box-shadow: 4px 4px 0 var(--ink); }
     .header-status { display: flex; align-items: center; gap: 12px; color: #49605b; }
     .status-pulse { width: 7px; height: 7px; border-radius: 50%; background: #62b77e; box-shadow: 0 0 0 5px rgba(98,183,126,.17); }
 
-    main { min-height: calc(100vh - 83px); padding: clamp(62px, 10vw, 132px) 0 72px; }
+    main { min-height: calc(100vh - 83px); padding: clamp(38px, 5vw, 64px) 0 72px; }
     .hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr); gap: clamp(48px, 8vw, 120px); align-items: end; }
     .eyebrow { margin: 0 0 24px; color: #536c65; font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
     h1 { max-width: 780px; margin: 0; font-size: clamp(62px, 10vw, 144px); line-height: .88; letter-spacing: -.075em; font-weight: 600; }
@@ -84,6 +84,9 @@
     @keyframes pulse { from { height: 16%; } to { height: var(--h); } }
     .note-card { display: flex; flex-direction: column; justify-content: space-between; padding: 24px; background: var(--lime); border: 1px solid var(--ink); }
     .note-card p { max-width: 210px; margin: 0; font-size: 27px; line-height: 1.03; letter-spacing: -.05em; font-weight: 600; }
+    .note-bottom { display: flex; align-items: end; justify-content: space-between; gap: 18px; }
+    .curiosity-count { max-width: 205px; margin: 0; font-family: var(--mono); font-size: 11px; line-height: 1.45; letter-spacing: .04em; text-transform: uppercase; }
+    .curiosity-count strong { font-family: var(--display); font-size: 30px; line-height: .95; letter-spacing: -.04em; }
     .note { align-self: end; font-size: 72px; line-height: .7; font-family: Georgia, serif; }
 
     .footer-row { display: flex; justify-content: space-between; align-items: end; gap: 30px; padding-top: 27px; margin-top: 22px; border-top: 1px solid var(--line); }
@@ -99,12 +102,11 @@
       .shell { width: min(100% - 32px, 540px); }
       header { padding: 20px 0; }
       .header-status { font-size: 10px; }
-      main { padding-top: 70px; }
+      main { padding-top: 40px; }
       .hero { display: block; }
       h1 { font-size: clamp(60px, 18vw, 102px); }
       .intro { margin-top: 36px; }
-      .signal { margin-top: 62px; min-height: 390px; grid-template-columns: 1fr; grid-template-rows: 1fr 155px; }
-      .note-card { flex-direction: row; align-items: start; }
+      .signal { margin-top: 62px; min-height: 420px; grid-template-columns: 1fr; grid-template-rows: 1fr 185px; }
       .note { align-self: end; }
       .footer-row { align-items: start; flex-direction: column; }
     }
@@ -141,13 +143,16 @@
           <audio id="signal-audio" preload="metadata" src="gundemguncellendi.mp3"></audio>
         </div>
         <div class="note-card">
-          <p>Danışmanlık.<br>Koçluk.<br>Müzik.</p>
-          <span class="note" aria-hidden="true">♪</span>
+          <p>Yakında<br>Yayındayız.</p>
+          <div class="note-bottom">
+            <div class="curiosity-count"><strong id="visitor-count" aria-live="polite">—</strong> dostumuz merakta!</div>
+            <span class="note" aria-hidden="true">♪</span>
+          </div>
         </div>
       </section>
 
       <footer class="footer-row reveal delay">
-        <div class="roles"><span>IT Consultant</span><span>İçindeKoç</span><span>Musician</span></div>
+        <div class="roles"><span>IT Consultant</span><span>Yaşam Koçu</span><span>Müzisyen</span></div>
         <a class="contact" href="mailto:merhaba@altugerbas.com.tr">Şimdilik merhaba de</a>
       </footer>
     </main>
@@ -161,6 +166,7 @@
       const label = button.querySelector('.play-label');
       const state = document.querySelector('#signal-state');
       const bars = [...document.querySelectorAll('.wave i')];
+      const visitorCount = document.querySelector('#visitor-count');
       let context;
       let analyser;
       let frequencyData;
@@ -223,6 +229,31 @@
         state.textContent = 'Ses yüklenemedi';
         button.disabled = true;
       });
+
+      const getVisitorId = () => {
+        const cookie = document.cookie.split('; ').find((item) => item.startsWith('altug_visitor='));
+        if (cookie) return decodeURIComponent(cookie.split('=').slice(1).join('='));
+        const id = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        document.cookie = `altug_visitor=${encodeURIComponent(id)}; Max-Age=31536000; Path=/; SameSite=Lax; Secure`;
+        return id;
+      };
+
+      const loadVisitorCount = async () => {
+        try {
+          const response = await fetch('/api/visitor-count', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ visitorId: getVisitorId() })
+          });
+          if (!response.ok) throw new Error('Counter request failed');
+          const { count } = await response.json();
+          visitorCount.textContent = new Intl.NumberFormat('tr-TR').format(count);
+        } catch {
+          visitorCount.textContent = '—';
+        }
+      };
+
+      loadVisitorCount();
     })();
   </script>
 </body>
