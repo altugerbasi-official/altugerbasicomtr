@@ -70,10 +70,17 @@
     .signal-card { position: relative; overflow: hidden; padding: 24px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); }
     .signal-card::after { content: ""; position: absolute; width: 170px; height: 170px; right: -42px; bottom: -68px; border: 1px solid var(--coral); border-radius: 50%; box-shadow: 0 0 0 24px rgba(255,128,102,.14), 0 0 0 49px rgba(255,128,102,.08); }
     .card-label { position: relative; z-index: 1; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
-    .wave { position: absolute; inset: 83px 24px 34px; display: flex; align-items: center; gap: 5px; }
+    .wave { position: absolute; inset: 83px 24px 66px; display: flex; align-items: center; gap: 5px; }
     .wave i { display: block; width: 4px; background: var(--lime); animation: pulse 1.5s ease-in-out infinite alternate; }
     .wave i:nth-child(3n) { background: var(--coral); animation-delay: -.7s; }
     .wave i:nth-child(4n) { animation-delay: -.2s; }
+    .signal-card.is-audio-active .wave i { animation: none; }
+    .player-controls { position: absolute; z-index: 2; right: 24px; bottom: 19px; left: 24px; display: flex; align-items: center; gap: 13px; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
+    .play-toggle { display: inline-flex; align-items: center; gap: 8px; min-width: 92px; padding: 8px 11px; color: var(--ink); background: var(--lime); border: 0; font: inherit; text-transform: inherit; cursor: pointer; }
+    .play-toggle:hover { background: var(--coral); }
+    .play-toggle:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
+    .play-icon { width: 10px; font-size: 11px; line-height: 1; }
+    .track-name { overflow: hidden; color: rgba(243,240,232,.72); text-overflow: ellipsis; white-space: nowrap; }
     @keyframes pulse { from { height: 16%; } to { height: var(--h); } }
     .note-card { display: flex; flex-direction: column; justify-content: space-between; padding: 24px; background: var(--lime); border: 1px solid var(--ink); }
     .note-card p { max-width: 210px; margin: 0; font-size: 27px; line-height: 1.03; letter-spacing: -.05em; font-weight: 600; }
@@ -121,10 +128,17 @@
 
       <section class="signal reveal delay" aria-label="Yakında açılacak site hakkında">
         <div class="signal-card">
-          <div class="card-label"><span>Signal / 001</span><span>Live soon</span></div>
+          <div class="card-label"><span>Signal / 001</span><span id="signal-state">Hazır</span></div>
           <div class="wave" aria-hidden="true">
             <i style="--h: 32%"></i><i style="--h: 58%"></i><i style="--h: 42%"></i><i style="--h: 78%"></i><i style="--h: 29%"></i><i style="--h: 93%"></i><i style="--h: 46%"></i><i style="--h: 67%"></i><i style="--h: 36%"></i><i style="--h: 83%"></i><i style="--h: 52%"></i><i style="--h: 72%"></i><i style="--h: 38%"></i><i style="--h: 88%"></i><i style="--h: 46%"></i><i style="--h: 61%"></i><i style="--h: 31%"></i><i style="--h: 76%"></i><i style="--h: 49%"></i><i style="--h: 94%"></i><i style="--h: 38%"></i><i style="--h: 68%"></i><i style="--h: 44%"></i><i style="--h: 81%"></i><i style="--h: 30%"></i><i style="--h: 57%"></i><i style="--h: 70%"></i><i style="--h: 41%"></i><i style="--h: 86%"></i><i style="--h: 33%"></i><i style="--h: 65%"></i>
           </div>
+          <div class="player-controls">
+            <button class="play-toggle" type="button" aria-pressed="false" aria-label="Gündem Güncellendi parçasını çal">
+              <span class="play-icon" aria-hidden="true">▶</span><span class="play-label">Dinle</span>
+            </button>
+            <span class="track-name">Gündem Güncellendi</span>
+          </div>
+          <audio id="signal-audio" preload="metadata" src="gundemguncellendi.mp3"></audio>
         </div>
         <div class="note-card">
           <p>Danışmanlık.<br>Koçluk.<br>Müzik.</p>
@@ -138,5 +152,78 @@
       </footer>
     </main>
   </div>
+  <script>
+    (() => {
+      const card = document.querySelector('.signal-card');
+      const audio = document.querySelector('#signal-audio');
+      const button = document.querySelector('.play-toggle');
+      const icon = button.querySelector('.play-icon');
+      const label = button.querySelector('.play-label');
+      const state = document.querySelector('#signal-state');
+      const bars = [...document.querySelectorAll('.wave i')];
+      let context;
+      let analyser;
+      let frequencyData;
+      let frame;
+
+      const prepareAudio = async () => {
+        if (!context) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          context = new AudioContext();
+          analyser = context.createAnalyser();
+          analyser.fftSize = 128;
+          analyser.smoothingTimeConstant = .78;
+          frequencyData = new Uint8Array(analyser.frequencyBinCount);
+          const source = context.createMediaElementSource(audio);
+          source.connect(analyser);
+          analyser.connect(context.destination);
+        }
+        if (context.state === 'suspended') await context.resume();
+      };
+
+      const drawSignal = () => {
+        analyser.getByteFrequencyData(frequencyData);
+        bars.forEach((bar, index) => {
+          const ratio = index / Math.max(1, bars.length - 1);
+          const bin = Math.min(frequencyData.length - 1, Math.floor(1 + Math.pow(ratio, 1.45) * frequencyData.length * .72));
+          const nearbyEnergy = (frequencyData[bin] + frequencyData[Math.min(bin + 1, frequencyData.length - 1)]) / 2;
+          bar.style.height = `${Math.max(8, 8 + nearbyEnergy / 255 * 88)}%`;
+        });
+        frame = requestAnimationFrame(drawSignal);
+      };
+
+      const setPlaying = (playing) => {
+        card.classList.toggle('is-audio-active', playing);
+        button.setAttribute('aria-pressed', String(playing));
+        button.setAttribute('aria-label', playing ? 'Gündem Güncellendi parçasını duraklat' : 'Gündem Güncellendi parçasını çal');
+        icon.textContent = playing ? 'Ⅱ' : '▶';
+        label.textContent = playing ? 'Duraklat' : 'Dinle';
+        state.textContent = playing ? 'Çalıyor' : 'Hazır';
+        cancelAnimationFrame(frame);
+        if (playing) drawSignal();
+      };
+
+      button.addEventListener('click', async () => {
+        try {
+          await prepareAudio();
+          if (audio.paused) await audio.play();
+          else audio.pause();
+        } catch {
+          state.textContent = 'Ses açılamadı';
+        }
+      });
+
+      audio.addEventListener('play', () => setPlaying(true));
+      audio.addEventListener('pause', () => setPlaying(false));
+      audio.addEventListener('ended', () => {
+        audio.currentTime = 0;
+        setPlaying(false);
+      });
+      audio.addEventListener('error', () => {
+        state.textContent = 'Ses yüklenemedi';
+        button.disabled = true;
+      });
+    })();
+  </script>
 </body>
 </html>
