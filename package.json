@@ -1,0 +1,7 @@
+{
+  "name": "altugerbas-coming-soon",
+  "private": true,
+  "scripts": {
+    "build": "node -e \"console.log('Static site is ready to deploy')\""
+  }
+}
