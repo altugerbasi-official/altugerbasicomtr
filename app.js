@@ -12,6 +12,9 @@
   const $ = selector => document.querySelector(selector);
   const audio = $('#audio');
   const seek = $('#seek');
+  const actingVideo = $('#acting-video');
+  actingVideo.addEventListener('play', () => { request++; audio.pause(); status(''); });
+  audio.addEventListener('play', () => actingVideo.pause());
   let current = -1;
   let request = 0;
   let scrubbing = false;
@@ -56,6 +59,7 @@
     const ticket = ++request;
     const track = tracks[index];
     if (!track) return;
+    actingVideo.pause();
     const external = youtubeUrl(track);
     if (current !== index) {
       audio.pause();
