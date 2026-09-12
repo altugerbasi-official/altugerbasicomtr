@@ -16,7 +16,7 @@ HTML revalidation (`no-cache, max-age=0, must-revalidate`), hash içeren JS/CSS 
 
 ## Eksik dış bilgiler
 
-`sameAs` bilinçli olarak boş. Kullanıcı tarafından doğrulanmış resmi YouTube, Spotify, Apple Music, Instagram, LinkedIn veya diğer profil adresleri sağlandığında ekleyin. Arama sonuçlarından kişi benzerliğine dayanarak profil eklemeyin.
+`sameAs`, kullanıcı tarafından doğrulanmış resmi Spotify ve Apple Music sanatçı adreslerini içerir. Resmi YouTube, Instagram, LinkedIn veya diğer profil adresleri sağlandığında ekleyin. Arama sonuçlarından kişi benzerliğine dayanarak profil eklemeyin.
 
 `googleSiteVerification` ve `bingSiteVerification` isteğe bağlı kamuya açık HTML doğrulama değerleridir. Hesap parolası, OAuth token veya başka kimlik bilgisi buraya yazılmaz. Domain doğrulaması için DNS TXT yöntemi tercih edilir; değer Search Console'dan alınır.
 

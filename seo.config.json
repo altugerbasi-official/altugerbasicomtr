@@ -4,7 +4,10 @@
   "personId": "https://altugerbasi.com.tr/#person",
   "profilePath": "/altug-erbasi.html",
   "description": "Altuğ Erbaşı; müzik, yazı, oyunculuk, yaşam koçluğu ve teknoloji alanlarında çalışan bir sanatçı, yazar ve IT profesyonelidir.",
-  "sameAs": [],
+  "sameAs": [
+    "https://open.spotify.com/artist/16FX3E8NGaY0DRVfzazxO4",
+    "https://music.apple.com/tr/artist/altu%C4%9F-erba%C5%9F%C4%B1/6806056590"
+  ],
   "googleSiteVerification": "",
   "bingSiteVerification": "",
   "pages": {
