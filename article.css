@@ -28,3 +28,10 @@
 .article-author .article-tags{font-size:12px;line-height:1.8;color:var(--muted);margin:24px 0}
 .article-author .text-link{display:inline-block;padding-block:12px;color:var(--accent)}
 @media(max-width:650px){nav{gap:8px 16px}.writing-card{padding:24px}.writing-meta{font-size:9px;letter-spacing:.8px;flex-wrap:wrap}.article-page{padding-top:24px}.article-header h1{letter-spacing:-1px}.article-body{font-size:17px;line-height:1.85}.article-body .article-lead{font-size:19px}.reflection{padding:22px 20px}.article-image{margin-top:36px}}
+.writing-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px}
+.writing-list .writing-card{max-width:none;display:flex;flex-direction:column}
+.writing-list .writing-card>.text-link{margin-top:auto;align-self:flex-start}
+.article-body strong{font-weight:700;color:var(--text)}
+.article-body .article-emphasis{border-left:2px solid var(--accent);padding-left:24px;margin-block:32px;font-size:clamp(19px,2.2vw,23px);line-height:1.7}
+.article-body .article-emphasis strong{color:var(--accent);font-weight:600}
+@media(max-width:800px){.writing-list{grid-template-columns:1fr;gap:24px}}

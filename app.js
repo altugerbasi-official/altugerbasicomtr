@@ -167,8 +167,11 @@
       $('.header').replaceWith(page.querySelector('.header'));
       $('.skip').replaceWith(page.querySelector('.skip'));
       document.title = page.title;
-      for (const selector of ['link[rel="canonical"]', 'meta[name="description"]', 'meta[property="og:type"]', 'meta[property="og:title"]', 'meta[property="og:description"]', 'meta[property="og:url"]', 'meta[property="og:image"]', 'meta[property="og:image:width"]', 'meta[property="og:image:height"]', 'meta[property="og:image:alt"]', 'meta[name="twitter:title"]', 'meta[name="twitter:description"]', 'meta[name="twitter:image"]']) {
-        $(selector).replaceWith(page.querySelector(selector));
+      for (const selector of ['link[rel="canonical"]', 'meta[name="description"]', 'meta[property="og:type"]', 'meta[property="og:title"]', 'meta[property="og:description"]', 'meta[property="og:url"]', 'meta[property="og:image"]', 'meta[property="og:image:width"]', 'meta[property="og:image:height"]', 'meta[property="og:image:alt"]', 'meta[name="twitter:card"]', 'meta[name="twitter:title"]', 'meta[name="twitter:description"]', 'meta[name="twitter:image"]']) {
+        const currentMeta = $(selector), nextMeta = page.querySelector(selector);
+        if (currentMeta && nextMeta) currentMeta.replaceWith(nextMeta);
+        else if (nextMeta) document.head.appendChild(nextMeta);
+        else currentMeta?.remove();
       }
       renderTracks();
       bindVideo();
