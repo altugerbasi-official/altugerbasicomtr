@@ -9,4 +9,4 @@ window.ARTIST_TRACKS = [
   { id: 'yuttum', title: 'Yuttum', caption: 'İçimizde kalanların da bir sesi var.', audio: 'assets/audio/yuttum.mp3', cover: 'assets/images/yuttum.jpg', duration: 219.65, youtubeUrl: '' }
 ];
 // Home-page selection and display order; all songs remain in ARTIST_TRACKS.
-window.FEATURED_TRACK_IDS = ['sevmek-yetmiyor', 'biraz-sevilmek-istedim', 'beni-gor'];
+window.FEATURED_TRACK_IDS = ['seni-hala-ozluyorum', 'sevmek-yetmiyor', 'biraz-sevilmek-istedim'];
