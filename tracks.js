@@ -1,5 +1,6 @@
 // Add a published YouTube URL to youtubeUrl to route listeners to that video.
 window.ARTIST_TRACKS = [
+  { id: 'seni-hala-ozluyorum', title: 'Seni Hala Özlüyorum', caption: 'Özlemin müziğe dönüşen hâli.', audio: 'assets/audio/seni-hala-ozluyorum.mp3', cover: 'assets/images/seni-hala-ozluyorum.jpg', duration: 243.6, youtubeUrl: '' },
   { id: 'bana-kaldi', title: 'Bana Kaldı', caption: 'Spotify’da da yayında.', audio: 'assets/audio/bana-kaldi.mp3', cover: 'assets/images/bana-kaldi.png', duration: 218.560167, youtubeUrl: '', spotifyUrl: 'https://open.spotify.com/track/6EpEfxfRHb4RMoE47BAO0h' },
   { id: 'beni-gor', title: 'Beni Gör', caption: 'Bazen bir bakış, bir dünyaya dokunur.', audio: 'assets/audio/beni-gor.mp3', cover: 'assets/images/beni-gor.jpg', duration: 285.35, youtubeUrl: '' },
   { id: 'sevmek-yetmiyor', title: 'Sevmek Yetmiyor', caption: 'Bazen sevmek, tek başına yetmiyor.', audio: 'assets/audio/sevmek-yetmiyor.mp3', cover: 'assets/images/sevmek-yetmiyor.jpg', duration: 273.88, youtubeUrl: '' },
