@@ -7,7 +7,7 @@
     const root = document.querySelector('#tracks');
     if (!root) return;
     const visible = root.dataset.catalog ? tracks : window.FEATURED_TRACK_IDS.map(id => tracks.find(track => track.id === id));
-    root.innerHTML = visible.map(track => `<article class="track" id="${track.id}"><div class="track-art"><img src="${track.cover}" alt="${track.title} — Altuğ, single kapağı" width="1400" height="1400" loading="lazy"><button class="track-play" type="button" data-track="${tracks.indexOf(track)}" aria-label="${track.title} dinle">${playIcon}</button></div><div class="track-topline"><span>ALTUĞ / SINGLE</span><span>${time(track.duration)}</span></div><h3>${track.title}</h3><p class="track-caption">${track.caption}</p><button class="track-listen" type="button" data-track="${tracks.indexOf(track)}"><span>Şimdi dinle</span><span aria-hidden="true">↗</span></button></article>`).join('');
+    root.innerHTML = visible.map(track => window.renderArtistTrack(track, tracks.indexOf(track))).join('');
     document.querySelectorAll('[data-track]').forEach(button => button.addEventListener('click', () => toggle(Number(button.dataset.track))));
   }
   const pauseIcon = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>';
@@ -167,12 +167,14 @@
       $('.header').replaceWith(page.querySelector('.header'));
       $('.skip').replaceWith(page.querySelector('.skip'));
       document.title = page.title;
-      for (const selector of ['link[rel="canonical"]', 'meta[name="description"]', 'meta[property="og:type"]', 'meta[property="og:title"]', 'meta[property="og:description"]', 'meta[property="og:url"]', 'meta[property="og:image"]', 'meta[property="og:image:width"]', 'meta[property="og:image:height"]', 'meta[property="og:image:alt"]', 'meta[name="twitter:card"]', 'meta[name="twitter:title"]', 'meta[name="twitter:description"]', 'meta[name="twitter:image"]']) {
+      for (const selector of ['meta[name="robots"]', 'meta[name="author"]', 'meta[property="og:site_name"]', 'meta[property="og:locale"]', 'link[rel="canonical"]', 'meta[name="description"]', 'meta[property="og:type"]', 'meta[property="og:title"]', 'meta[property="og:description"]', 'meta[property="og:url"]', 'meta[property="og:image"]', 'meta[property="og:image:width"]', 'meta[property="og:image:height"]', 'meta[property="og:image:alt"]', 'meta[name="twitter:card"]', 'meta[name="twitter:title"]', 'meta[name="twitter:description"]', 'meta[name="twitter:image"]']) {
         const currentMeta = $(selector), nextMeta = page.querySelector(selector);
         if (currentMeta && nextMeta) currentMeta.replaceWith(nextMeta);
         else if (nextMeta) document.head.appendChild(nextMeta);
         else currentMeta?.remove();
       }
+      document.querySelectorAll('script[type="application/ld+json"]').forEach(node => node.remove());
+      page.querySelectorAll('script[type="application/ld+json"]').forEach(node => document.head.appendChild(node));
       renderTracks();
       bindVideo();
       sync();

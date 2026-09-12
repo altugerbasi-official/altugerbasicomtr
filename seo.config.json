@@ -1,0 +1,42 @@
+{
+  "origin": "https://altugerbasi.com.tr",
+  "name": "Altuğ Erbaşı",
+  "personId": "https://altugerbasi.com.tr/#person",
+  "profilePath": "/altug-erbasi.html",
+  "description": "Altuğ Erbaşı; müzik, yazı, oyunculuk, yaşam koçluğu ve teknoloji alanlarında çalışan bir sanatçı, yazar ve IT profesyonelidir.",
+  "sameAs": [],
+  "googleSiteVerification": "",
+  "bingSiteVerification": "",
+  "pages": {
+    "index.html": {
+      "path": "/",
+      "type": "WebPage",
+      "title": "Altuğ Erbaşı | Müzisyen, Yazar, Oyuncu ve Yaşam Koçu",
+      "description": "Altuğ Erbaşı'nın resmi web sitesi. Şarkıları, tiyatro deneyimleri ve yazıları; müzik, oyunculuk, yaşam koçluğu ve teknolojiyle şekillenen kişisel yolculuğu."
+    },
+    "muzik.html": {
+      "path": "/muzik.html",
+      "type": "CollectionPage",
+      "title": "Altuğ Erbaşı Şarkıları | Resmi Müzik Arşivi",
+      "description": "Altuğ Erbaşı'nın resmi müzik arşivi. Beni Gör, Sevmek Yetmiyor, Biraz Sevilmek İstedim, Yaşanmamış Bir Ömür ve Yuttum'u dinle; şarkıların hikâyelerini keşfet."
+    },
+    "altug-erbasi.html": {
+      "path": "/altug-erbasi.html",
+      "type": "ProfilePage",
+      "title": "Altuğ Erbaşı Kimdir? | Resmi Biyografi",
+      "description": "Altuğ Erbaşı kimdir? Müzik, yazı, tiyatro, yaşam koçluğu ve teknoloji alanlarındaki çalışmalarını, şarkılarını ve kişisel yolculuğunu resmi sitesinden tanı."
+    },
+    "vazgecmemek-her-zaman-guc-degildir.html": {
+      "path": "/vazgecmemek-her-zaman-guc-degildir.html",
+      "type": "Article",
+      "title": "Vazgeçmemek Her Zaman Güç Değildir | Altuğ Erbaşı",
+      "description": "Bazen ısrar etmek bizi hedefimize değil, kendimizden uzaklaşmaya götürür. Mücadele etmekle kendinden vazgeçmek arasındaki çizgiyi nasıl fark ederiz?"
+    },
+    "motivasyonumuz-saf-olmak-zorunda-mi.html": {
+      "path": "/motivasyonumuz-saf-olmak-zorunda-mi.html",
+      "type": "Article",
+      "title": "Motivasyonumuz Saf Olmak Zorunda mı? | Altuğ Erbaşı",
+      "description": "Kendimizi ifade etmekle görülmek istemek bir arada olabilir mi? Altuğ Erbaşı; müzik, tiyatro ve yazı deneyimleri üzerinden motivasyonlarını sorguluyor."
+    }
+  }
+}

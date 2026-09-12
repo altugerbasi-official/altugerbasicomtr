@@ -1,0 +1,13 @@
+User-agent: Googlebot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://altugerbasi.com.tr/sitemap.xml

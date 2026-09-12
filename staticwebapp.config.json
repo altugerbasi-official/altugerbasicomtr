@@ -4,15 +4,104 @@
   },
   "routes": [
     {
+      "route": "/index.html",
+      "redirect": "/",
+      "statusCode": 301
+    },
+    {
+      "route": "/index",
+      "redirect": "/",
+      "statusCode": 301
+    },
+    {
+      "route": "/index/",
+      "redirect": "/",
+      "statusCode": 301
+    },
+    {
+      "route": "/index.html/",
+      "redirect": "/",
+      "statusCode": 301
+    },
+    {
+      "route": "/muzik",
+      "redirect": "/muzik.html",
+      "statusCode": 301
+    },
+    {
+      "route": "/muzik/",
+      "redirect": "/muzik.html",
+      "statusCode": 301
+    },
+    {
+      "route": "/muzik.html/",
+      "redirect": "/muzik.html",
+      "statusCode": 301
+    },
+    {
+      "route": "/altug-erbasi",
+      "redirect": "/altug-erbasi.html",
+      "statusCode": 301
+    },
+    {
+      "route": "/altug-erbasi/",
+      "redirect": "/altug-erbasi.html",
+      "statusCode": 301
+    },
+    {
+      "route": "/altug-erbasi.html/",
+      "redirect": "/altug-erbasi.html",
+      "statusCode": 301
+    },
+    {
+      "route": "/vazgecmemek-her-zaman-guc-degildir",
+      "redirect": "/vazgecmemek-her-zaman-guc-degildir.html",
+      "statusCode": 301
+    },
+    {
+      "route": "/vazgecmemek-her-zaman-guc-degildir/",
+      "redirect": "/vazgecmemek-her-zaman-guc-degildir.html",
+      "statusCode": 301
+    },
+    {
+      "route": "/vazgecmemek-her-zaman-guc-degildir.html/",
+      "redirect": "/vazgecmemek-her-zaman-guc-degildir.html",
+      "statusCode": 301
+    },
+    {
+      "route": "/motivasyonumuz-saf-olmak-zorunda-mi",
+      "redirect": "/motivasyonumuz-saf-olmak-zorunda-mi.html",
+      "statusCode": 301
+    },
+    {
+      "route": "/motivasyonumuz-saf-olmak-zorunda-mi/",
+      "redirect": "/motivasyonumuz-saf-olmak-zorunda-mi.html",
+      "statusCode": 301
+    },
+    {
+      "route": "/motivasyonumuz-saf-olmak-zorunda-mi.html/",
+      "redirect": "/motivasyonumuz-saf-olmak-zorunda-mi.html",
+      "statusCode": 301
+    },
+    {
       "route": "/assets/versioned/*",
-      "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
     },
     {
       "route": "/assets/*",
-      "headers": { "Cache-Control": "public, max-age=30, must-revalidate" }
+      "headers": {
+        "Cache-Control": "public, max-age=30, must-revalidate"
+      }
     }
   ],
   "mimeTypes": {
-    ".mp4": "video/mp4"
-  }
+    ".mp4": "video/mp4",
+    ".html": "text/html; charset=utf-8",
+    ".xml": "application/xml; charset=utf-8",
+    ".txt": "text/plain; charset=utf-8",
+    ".webmanifest": "application/manifest+json"
+  },
+  "trailingSlash": "never"
 }

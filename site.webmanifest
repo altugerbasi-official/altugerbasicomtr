@@ -1,0 +1,12 @@
+{
+  "name": "Altuğ Erbaşı — Resmi Web Sitesi",
+  "short_name": "Altuğ Erbaşı",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "tr",
+  "display": "browser",
+  "background_color": "#151714",
+  "theme_color": "#151714",
+  "icons": [{"src": "/assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}]
+}
