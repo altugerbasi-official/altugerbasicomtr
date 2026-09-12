@@ -2,7 +2,7 @@
   "name": "altugerbas-coming-soon",
   "private": true,
   "scripts": {
-    "build": "node scripts/validate.cjs",
+    "build": "node scripts/validate.cjs && node scripts/build.cjs",
     "dev": "node scripts/preview.cjs"
   }
 }

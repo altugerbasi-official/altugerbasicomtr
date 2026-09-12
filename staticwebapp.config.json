@@ -1,4 +1,17 @@
 {
+  "globalHeaders": {
+    "Cache-Control": "no-cache, max-age=0, must-revalidate"
+  },
+  "routes": [
+    {
+      "route": "/assets/versioned/*",
+      "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
+    },
+    {
+      "route": "/assets/*",
+      "headers": { "Cache-Control": "public, max-age=30, must-revalidate" }
+    }
+  ],
   "mimeTypes": {
     ".mp4": "video/mp4"
   }

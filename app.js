@@ -153,11 +153,15 @@
   async function navigate(url, push = true) {
     const ticket = ++navigationRequest;
     try {
-      const response = await fetch(url.href);
+      const response = await fetch(url.href, { cache: 'no-store' });
       if (!response.ok) throw new Error('Page unavailable');
       const page = new DOMParser().parseFromString(await response.text(), 'text/html');
       if (!page.querySelector('#player-root') || !page.querySelector('main')) throw new Error('Invalid page');
       if (ticket !== navigationRequest) return;
+      // A new deployment may require different scripts or styles. Reload its
+      // complete document instead of combining new HTML with the old runtime.
+      const assets = doc => [...doc.querySelectorAll('script[src], link[rel="stylesheet"]')].map(node => node.getAttribute('src') || node.getAttribute('href')).join('|');
+      if (assets(page) !== assets(document)) { location.assign(url.href); return; }
       $('#acting-video')?.pause();
       $('main').replaceWith(page.querySelector('main'));
       $('.header').replaceWith(page.querySelector('.header'));

@@ -3,8 +3,13 @@ name: Azure Static Web Apps Manual Deploy
 on:
   workflow_dispatch:
 
+concurrency:
+  group: production-static-site
+  cancel-in-progress: false
+
 jobs:
   build_and_deploy_job:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     permissions:
@@ -15,6 +20,17 @@ jobs:
         with:
           submodules: true
           lfs: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Validate and build production artifact
+        run: npm run build
+      - name: Record deployed artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-site-${{ github.sha }}
+          path: dist/
+          retention-days: 14
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -23,7 +39,7 @@ jobs:
           action: "upload"
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "/" # App source code path
+          app_location: "dist" # Exact validated static artifact
           skip_app_build: true
           api_location: "api" # Api source code path
           output_location: "" # Built app content directory - optional
