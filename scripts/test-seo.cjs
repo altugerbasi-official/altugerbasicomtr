@@ -4,6 +4,9 @@ const assert = require('node:assert/strict');
 const config = require('../seo.config.json');
 const root = path.resolve(__dirname, '../dist');
 const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
+const hosting = JSON.parse(fs.readFileSync(path.join(root, 'staticwebapp.config.json'), 'utf8'));
+const routes = hosting.routes.map(rule => rule.route.replace(/\/$/, ''));
+assert.equal(new Set(routes).size, routes.length, 'Azure treats trailing-slash routes as duplicates');
 for (const [file, page] of Object.entries(config.pages)) {
   const html = fs.readFileSync(path.join(root, file), 'utf8');
   assert.equal([...html.matchAll(/<h1\b/g)].length, 1, file + ': single H1');

@@ -14,27 +14,7 @@
       "statusCode": 301
     },
     {
-      "route": "/index/",
-      "redirect": "/",
-      "statusCode": 301
-    },
-    {
-      "route": "/index.html/",
-      "redirect": "/",
-      "statusCode": 301
-    },
-    {
       "route": "/muzik",
-      "redirect": "/muzik.html",
-      "statusCode": 301
-    },
-    {
-      "route": "/muzik/",
-      "redirect": "/muzik.html",
-      "statusCode": 301
-    },
-    {
-      "route": "/muzik.html/",
       "redirect": "/muzik.html",
       "statusCode": 301
     },
@@ -44,42 +24,12 @@
       "statusCode": 301
     },
     {
-      "route": "/altug-erbasi/",
-      "redirect": "/altug-erbasi.html",
-      "statusCode": 301
-    },
-    {
-      "route": "/altug-erbasi.html/",
-      "redirect": "/altug-erbasi.html",
-      "statusCode": 301
-    },
-    {
       "route": "/vazgecmemek-her-zaman-guc-degildir",
       "redirect": "/vazgecmemek-her-zaman-guc-degildir.html",
       "statusCode": 301
     },
     {
-      "route": "/vazgecmemek-her-zaman-guc-degildir/",
-      "redirect": "/vazgecmemek-her-zaman-guc-degildir.html",
-      "statusCode": 301
-    },
-    {
-      "route": "/vazgecmemek-her-zaman-guc-degildir.html/",
-      "redirect": "/vazgecmemek-her-zaman-guc-degildir.html",
-      "statusCode": 301
-    },
-    {
       "route": "/motivasyonumuz-saf-olmak-zorunda-mi",
-      "redirect": "/motivasyonumuz-saf-olmak-zorunda-mi.html",
-      "statusCode": 301
-    },
-    {
-      "route": "/motivasyonumuz-saf-olmak-zorunda-mi/",
-      "redirect": "/motivasyonumuz-saf-olmak-zorunda-mi.html",
-      "statusCode": 301
-    },
-    {
-      "route": "/motivasyonumuz-saf-olmak-zorunda-mi.html/",
       "redirect": "/motivasyonumuz-saf-olmak-zorunda-mi.html",
       "statusCode": 301
     },
