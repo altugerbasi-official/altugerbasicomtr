@@ -3,7 +3,12 @@
   const tracks = window.ARTIST_TRACKS;
   const time = value => `${Math.floor(value / 60)}:${String(Math.floor(value % 60)).padStart(2, '0')}`;
   const playIcon = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>';
-  document.querySelector('#tracks').innerHTML = tracks.map((track, index) => `<article class="track" id="${track.id}"><div class="track-art"><img src="${track.cover}" alt="${track.title} — Altuğ, single kapağı" width="1400" height="1400" loading="lazy"><button class="track-play" type="button" data-track="${index}" aria-label="${track.title} dinle">${playIcon}</button></div><div class="track-topline"><span>ALTUĞ / SINGLE</span><span>${time(track.duration)}</span></div><h3>${track.title}</h3><p class="track-caption">${track.caption}</p><button class="track-listen" type="button" data-track="${index}"><span>Şimdi dinle</span><span aria-hidden="true">↗</span></button></article>`).join('');
+  function renderTracks() {
+    const root = document.querySelector('#tracks');
+    const visible = root.dataset.catalog ? tracks : window.FEATURED_TRACK_IDS.map(id => tracks.find(track => track.id === id));
+    root.innerHTML = visible.map(track => `<article class="track" id="${track.id}"><div class="track-art"><img src="${track.cover}" alt="${track.title} — Altuğ, single kapağı" width="1400" height="1400" loading="lazy"><button class="track-play" type="button" data-track="${tracks.indexOf(track)}" aria-label="${track.title} dinle">${playIcon}</button></div><div class="track-topline"><span>ALTUĞ / SINGLE</span><span>${time(track.duration)}</span></div><h3>${track.title}</h3><p class="track-caption">${track.caption}</p><button class="track-listen" type="button" data-track="${tracks.indexOf(track)}"><span>Şimdi dinle</span><span aria-hidden="true">↗</span></button></article>`).join('');
+    document.querySelectorAll('[data-track]').forEach(button => button.addEventListener('click', () => toggle(Number(button.dataset.track))));
+  }
   const pauseIcon = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>';
   const previousIcon = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h2v14H5zm14 0v14L8 12z"/></svg>';
   const nextIcon = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 5h2v14h-2zM5 5l11 7-11 7z"/></svg>';
@@ -12,9 +17,10 @@
   const $ = selector => document.querySelector(selector);
   const audio = $('#audio');
   const seek = $('#seek');
-  const actingVideo = $('#acting-video');
-  actingVideo.addEventListener('play', () => { request++; audio.pause(); status(''); });
-  audio.addEventListener('play', () => actingVideo.pause());
+  function bindVideo() {
+    $('#acting-video')?.addEventListener('play', () => { request++; audio.pause(); status(''); });
+  }
+  audio.addEventListener('play', () => $('#acting-video')?.pause());
   let current = -1;
   let request = 0;
   let scrubbing = false;
@@ -38,6 +44,7 @@
     tracks.forEach((track, index) => {
       const active = current === index && playing;
       const card = document.getElementById(track.id);
+      if (!card) return;
       card.classList.toggle('is-playing', active);
       card.querySelector('.track-play').innerHTML = active ? pauseIcon : playIcon;
       card.querySelectorAll('[data-track]').forEach(button => {
@@ -59,7 +66,7 @@
     const ticket = ++request;
     const track = tracks[index];
     if (!track) return;
-    actingVideo.pause();
+    $('#acting-video')?.pause();
     const external = youtubeUrl(track);
     if (current !== index) {
       audio.pause();
@@ -101,7 +108,6 @@
     if (index === current && !audio.paused) { request++; audio.pause(); status(''); }
     else start(index);
   }
-  document.querySelectorAll('[data-track]').forEach(button => button.addEventListener('click', () => toggle(Number(button.dataset.track))));
   $('#toggle').addEventListener('click', () => toggle());
   const next = () => start((current + 1) % tracks.length);
   const previous = () => start((current - 1 + tracks.length) % tracks.length);
@@ -139,6 +145,47 @@
     const actions = { play: () => start(current < 0 ? 0 : current), pause: () => audio.pause(), previoustrack: previous, nexttrack: next, seekto: detail => { if (Number.isFinite(audio.duration)) audio.currentTime = Math.max(0, Math.min(audio.duration, detail.seekTime)); } };
     Object.entries(actions).forEach(([action, handler]) => { try { navigator.mediaSession.setActionHandler(action, handler); } catch {} });
   }
+  renderTracks();
+  bindVideo();
+  // Keep this document's audio player alive while changing the page content.
+  let navigationRequest = 0;
+  async function navigate(url, push = true) {
+    const ticket = ++navigationRequest;
+    try {
+      const response = await fetch(url.href);
+      if (!response.ok) throw new Error('Page unavailable');
+      const page = new DOMParser().parseFromString(await response.text(), 'text/html');
+      if (!page.querySelector('#tracks') || !page.querySelector('main')) throw new Error('Invalid page');
+      if (ticket !== navigationRequest) return;
+      $('#acting-video')?.pause();
+      $('main').replaceWith(page.querySelector('main'));
+      $('.header').replaceWith(page.querySelector('.header'));
+      $('.skip').replaceWith(page.querySelector('.skip'));
+      document.title = page.title;
+      for (const selector of ['link[rel="canonical"]', 'meta[name="description"]', 'meta[property="og:title"]', 'meta[property="og:description"]', 'meta[property="og:url"]', 'meta[name="twitter:title"]', 'meta[name="twitter:description"]']) {
+        $(selector).replaceWith(page.querySelector(selector));
+      }
+      renderTracks();
+      bindVideo();
+      sync();
+      if (push) history.pushState(null, '', url.href);
+      const target = url.hash ? document.getElementById(decodeURIComponent(url.hash.slice(1))) : $('main h1');
+      if (target) { target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); }
+      if (url.hash && target) target.scrollIntoView();
+      else window.scrollTo(0, 0);
+    } catch {
+      if (ticket === navigationRequest) location.assign(url.href);
+    }
+  }
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a[data-site-nav]');
+    if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const url = new URL(link.href, location.href);
+    if (url.origin !== location.origin) return;
+    event.preventDefault();
+    navigate(url);
+  });
+  window.addEventListener('popstate', () => navigate(new URL(location.href), false));
   $('#year').textContent = new Date().getFullYear();
   sync();
   async function loadVisitors() {

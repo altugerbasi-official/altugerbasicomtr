@@ -5,6 +5,8 @@ Altuğ Erbaşı Official Site — sanatçı sitesi.
 
 ## Müzik
 
+Ana sayfadaki üç şarkı ve sıraları `tracks.js` içindeki `FEATURED_TRACK_IDS` listesinden seçilir. `ARTIST_TRACKS` tüm arşivi tutar; `muzik.html` hepsini kompakt liste olarak gösterir. Bu sayfalar arasındaki site içi geçişlerde oynatıcı ve çalan şarkı korunur.
+
 Şarkılar `tracks.js` dosyasında tanımlıdır. MP3 dosyaları `assets/audio`, kapaklar `assets/images` içindedir. Orijinal WAV ve fotoğraflar değiştirilmez.
 
 Bir şarkı YouTube'da yayımlandığında ilgili kaydın `youtubeUrl` alanına HTTPS video adresini yazın. Dinleme düğmeleri bu adresi yeni sekmede açar ve site içi sesi durdurur. Otomatik parça geçişi yeni sekme açmaz; ziyaretçiye YouTube bağlantısını gösterir. YouTube görüntüleme sayımı platformun kendi kurallarına bağlıdır.
