@@ -7,3 +7,5 @@
 .acting-reflection>p{font-size:16px;line-height:1.9;color:var(--muted);margin-bottom:22px}
 .acting-reflection .acting-emphasis{font-family:var(--display);font-size:clamp(21px,2.3vw,28px);font-weight:500;line-height:1.5;letter-spacing:-.5px;color:var(--text);margin:28px 0 0}
 @media(max-width:650px){.acting .section-heading .acting-motto{font-size:15px}.acting .section-heading .acting-motto br{display:initial}.acting-reflection{margin-bottom:38px}.acting-reflection>p{font-size:15px}}
+
+.catalog-tracks .track-actions{grid-column:4;grid-row:1/3;justify-self:end;display:flex;flex-direction:column;align-items:flex-end;gap:12px}.track-spotify{color:var(--accent);font-size:12px}.track-spotify:hover{text-decoration:underline}@media(max-width:650px){.catalog-tracks .track-actions{grid-column:2;grid-row:3;justify-self:start;align-items:flex-start;gap:10px}}

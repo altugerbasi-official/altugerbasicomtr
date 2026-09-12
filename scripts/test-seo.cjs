@@ -2,6 +2,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 const assert = require('node:assert/strict');
 const config = require('../seo.config.json');
+const context = require('node:vm').createContext({ window: {} });
+require('node:vm').runInContext(fs.readFileSync(path.resolve(__dirname, '../tracks.js'), 'utf8'), context);
+const tracks = context.window.ARTIST_TRACKS;
 const root = path.resolve(__dirname, '../dist');
 const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
 const hosting = JSON.parse(fs.readFileSync(path.join(root, 'staticwebapp.config.json'), 'utf8'));
@@ -34,9 +37,13 @@ for (const [file, page] of Object.entries(config.pages)) {
   }
   if (file === 'muzik.html') {
     const recordings = graph.filter(node => node['@type'] === 'MusicRecording');
-    assert.equal(recordings.length, 5);
+    assert.equal(recordings.length, tracks.length);
     for (const recording of recordings) assert.ok(html.includes(`id="${recording['@id'].split('#')[1]}"`));
-    assert.equal([...html.matchAll(/class="track"/g)].length, 5);
+    assert.equal([...html.matchAll(/class="track"/g)].length, tracks.length);
+    for (const track of tracks.filter(track => track.spotifyUrl)) {
+      assert.ok(html.includes(`href="${track.spotifyUrl}"`));
+      assert.deepEqual(recordings.find(recording => recording.name === track.title).sameAs, [track.spotifyUrl]);
+    }
   }
 }
 assert.equal([...sitemap.matchAll(/<loc>/g)].length, Object.keys(config.pages).length);

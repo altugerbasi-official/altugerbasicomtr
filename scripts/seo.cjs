@@ -51,7 +51,7 @@ function enrich(html, filename, tracks) {
     graph.push(article);webPage.mainEntity={'@id':article['@id']};
   }
   if(filename==='muzik.html') {
-    const recordings=tracks.map(track=>({'@type':'MusicRecording','@id':url+'#'+track.id,name:track.title,url:url+'#'+track.id,byArtist:{'@id':config.personId},duration:`PT${Math.floor(track.duration/60)}M${Math.round(track.duration%60)}S`,image:config.origin+'/'+track.cover,encoding:{'@type':'AudioObject',contentUrl:config.origin+'/'+track.audio,encodingFormat:'audio/mpeg'}}));
+    const recordings=tracks.map(track=>({'@type':'MusicRecording','@id':url+'#'+track.id,name:track.title,url:url+'#'+track.id,...(track.spotifyUrl?{sameAs:[track.spotifyUrl]}:{}),byArtist:{'@id':config.personId},duration:`PT${Math.floor(track.duration/60)}M${Math.round(track.duration%60)}S`,image:config.origin+'/'+track.cover,encoding:{'@type':'AudioObject',contentUrl:config.origin+'/'+track.audio,encodingFormat:'audio/mpeg'}}));
     graph.push(...recordings);
     webPage.mainEntity={'@type':'ItemList',itemListElement:recordings.map((r,i)=>({'@type':'ListItem',position:i+1,item:{'@id':r['@id']}}))};
   }
